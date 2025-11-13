@@ -1,0 +1,89 @@
+# Default values for frontend chart
+
+replicaCount: 2
+
+image:
+  repository: heinz-boilerplate/frontend
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext:
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+# Ingress configuration (commented out - customize as needed)
+# ingress:
+#   enabled: true
+#   className: "nginx"
+#   annotations: {}
+#   hosts:
+#     - host: frontend.local
+#       paths:
+#         - path: /
+#           pathType: Prefix
+#   tls: []
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Environment variables
+env:
+  - name: NODE_ENV
+    value: "production"
+  - name: NEXT_PUBLIC_API_URL
+    value: "http://backend:8000"
+  - name: NEXT_TELEMETRY_DISABLED
+    value: "1"
+
+# Health check configuration
+healthCheck:
+  enabled: true
+  path: /
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3

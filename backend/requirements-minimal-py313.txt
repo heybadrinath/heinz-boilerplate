@@ -1,0 +1,27 @@
+# Minimal requirements for development (Python 3.13 compatible)
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+
+# Database (SQLite only for development)
+sqlalchemy[asyncio]==2.0.36
+aiosqlite==0.20.0
+alembic==1.14.0
+
+# Authentication and security  
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.12
+
+
+# Logging
+python-json-logger==2.0.7
+
+# Configuration and validation
+pydantic[email]==2.10.4
+pydantic-settings==2.6.1
+
+# Async support
+aiofiles==24.1.0
+
+# Testing
+httpx==0.28.1

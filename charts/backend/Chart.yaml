@@ -1,0 +1,17 @@
+apiVersion: v2
+name: fastapi-backend
+description: A Helm chart for FastAPI Backend Boilerplate
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+keywords:
+  - fastapi
+  - backend
+  - api
+  - python
+home: https://github.com/your-org/heinz-boilerplate
+sources:
+  - https://github.com/your-org/heinz-boilerplate
+maintainers:
+  - name: Backend Team
+    email: backend-team@company.com
