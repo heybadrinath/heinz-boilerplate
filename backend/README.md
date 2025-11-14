@@ -157,34 +157,29 @@ curl -X POST "http://localhost:8000/api/v1/login" \
   }'
 ```
 
-### Todo Operations
+### User Operations
 
-3. **Create a todo** (requires authentication):
+3. **Get current user** (requires authentication):
 ```bash
-curl -X POST "http://localhost:8000/api/v1/todos" \
-  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "My First Todo",
-    "description": "This is a test todo",
-    "priority": "high"
-  }'
-```
-
-4. **List todos**:
-```bash
-curl -X GET "http://localhost:8000/api/v1/todos" \
+curl -X GET "http://localhost:8000/api/v1/me" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
-5. **Update a todo**:
+4. **Refresh token**:
 ```bash
-curl -X PUT "http://localhost:8000/api/v1/todos/1" \
-  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+curl -X POST "http://localhost:8000/api/v1/refresh" \
   -H "Content-Type: application/json" \
   -d '{
-    "completed": true,
-    "priority": "medium"
+    "refresh_token": "YOUR_REFRESH_TOKEN"
+  }'
+```
+
+5. **Logout**:
+```bash
+curl -X POST "http://localhost:8000/api/v1/logout" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "refresh_token": "YOUR_REFRESH_TOKEN"
   }'
 ```
 
@@ -197,7 +192,7 @@ backend/
 │   ├── api/
 │   │   └── v1/
 │   │       ├── auth.py      # Authentication endpoints
-│   │       └── todos.py     # Todo CRUD endpoints
+│   │       └── auth.py      # Authentication endpoints
 │   ├── core/
 │   │   ├── config.py        # Configuration management
 │   │   ├── security.py      # JWT and password utilities

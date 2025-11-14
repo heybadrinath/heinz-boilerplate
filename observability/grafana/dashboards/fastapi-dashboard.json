@@ -77,12 +77,12 @@
       },
       {
         "id": 4,
-        "title": "Todo Creation Rate",
+        "title": "User Registration Rate",
         "type": "singlestat",
         "targets": [
           {
-            "expr": "rate(todo_created_total[1m])",
-            "legendFormat": "Todos/sec"
+            "expr": "rate(users_created_total[1m])",
+            "legendFormat": "Users/sec"
           }
         ],
         "gridPos": {

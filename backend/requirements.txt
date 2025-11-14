@@ -27,3 +27,6 @@ aiofiles==23.2.1
 
 # Testing
 httpx==0.25.2
+
+# Observability
+prometheus-fastapi-instrumentator==6.1.0

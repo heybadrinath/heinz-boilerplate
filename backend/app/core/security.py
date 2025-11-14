@@ -1,18 +1,16 @@
 """
 Security utilities for JWT tokens and password hashing.
+Simple hashlib-based implementation to avoid bcrypt compatibility issues.
 """
+import hashlib
+import secrets
 from datetime import datetime, timedelta
 from typing import Optional, Union
 
 from jose import JWTError, jwt
-from passlib.context import CryptContext
 from pydantic import BaseModel
 
 from app.core.config import settings
-
-
-# Password hashing
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 class Token(BaseModel):
@@ -26,14 +24,27 @@ class TokenData(BaseModel):
     user_id: Optional[int] = None
 
 
+def get_password_hash(password: str) -> str:
+    """Hash a password using SHA-256 with salt."""
+    # Generate a random salt
+    salt = secrets.token_hex(16)
+    # Hash password with salt
+    password_hash = hashlib.sha256((password + salt).encode()).hexdigest()
+    # Return salt + hash for storage
+    return f"{salt}:{password_hash}"
+
+
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """Verify a password against its hash."""
-    return pwd_context.verify(plain_password, hashed_password)
-
-
-def get_password_hash(password: str) -> str:
-    """Hash a password."""
-    return pwd_context.hash(password)
+    try:
+        # Split salt and hash
+        salt, stored_hash = hashed_password.split(":", 1)
+        # Hash the provided password with the stored salt
+        password_hash = hashlib.sha256((plain_password + salt).encode()).hexdigest()
+        # Compare hashes
+        return password_hash == stored_hash
+    except ValueError:
+        return False
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:

@@ -29,10 +29,12 @@ RUN pip install --upgrade pip && \
 # Production stage
 FROM python:3.11-slim as production
 
-# Install runtime dependencies
+# Install runtime dependencies + Node.js/npm for running E2E tests
 RUN apt-get update && apt-get install -y \
     libpq5 \
     curl \
+    nodejs \
+    npm \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get autoremove -y \
     && apt-get clean
@@ -44,6 +46,7 @@ RUN groupadd -r appuser && useradd -r -g appuser appuser
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PATH="/opt/venv/bin:$PATH"
+ENV E2E_TESTS_DIR=/app/tests/e2e
 
 # Copy virtual environment from builder
 COPY --from=builder /opt/venv /opt/venv

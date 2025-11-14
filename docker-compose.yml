@@ -10,6 +10,9 @@ services:
       - "3000:3000"
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_GRAFANA_URL=http://localhost:3001
+      - NEXT_PUBLIC_PROMETHEUS_URL=http://localhost:9090
+      - NEXT_PUBLIC_JAEGER_URL=http://localhost:16686
       - NODE_ENV=development
       - NEXT_TELEMETRY_DISABLED=1
     depends_on:
@@ -30,6 +33,7 @@ services:
       - DATABASE_URL=postgresql+asyncpg://postgres:password@postgres:5432/fastapi_db
       - REDIS_URL=redis://redis:6379
       - OTEL_COLLECTOR_ENDPOINT=http://otel-collector:4317
+      - E2E_TESTS_DIR=/app/tests/e2e
     env_file:
       - .env
     depends_on:
@@ -38,6 +42,7 @@ services:
       - otel-collector
     volumes:
       - ./backend/app:/app/app
+      - ./tests/e2e:/app/tests/e2e
     networks:
       - app-network
 

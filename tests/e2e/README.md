@@ -1,6 +1,6 @@
 # E2E Tests
 
-End-to-end tests for the FastAPI backend using Playwright.
+Basic end-to-end tests for the FastAPI backend using Playwright.
 
 ## Setup
 
@@ -47,12 +47,6 @@ npm test
 The E2E tests cover:
 - ✅ Health check endpoint
 - ✅ Metrics endpoint
-- ✅ User registration
-- ✅ User authentication (login)
-- ✅ JWT token validation
-- ✅ Todo CRUD operations
-- ✅ Todo statistics
-- ✅ Error handling (404, 401)
 
 ## Test Results
 

@@ -231,12 +231,10 @@ curl -X POST "http://localhost:8000/api/v1/login" \
   -d '{"username": "testuser", "password": "testpass123"}'
 ```
 
-3. **Create a todo** (replace YOUR_TOKEN):
+3. **Get current user info** (replace YOUR_TOKEN):
 ```bash
-curl -X POST "http://localhost:8000/api/v1/todos" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"title": "My First Todo", "priority": "high"}'
+curl -X GET "http://localhost:8000/api/v1/me" \
+  -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 ### Run Tests

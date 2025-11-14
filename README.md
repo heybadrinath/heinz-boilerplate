@@ -161,7 +161,7 @@ heinz-boilerplate/
 - **FastAPI Framework**: Modern, fast, and async Python web framework
 - **Authentication**: JWT-based auth with access/refresh tokens
 - **Database**: PostgreSQL with async SQLAlchemy and Alembic migrations
-- **CRUD Operations**: Example Todo resource with full CRUD
+- **User Management**: User registration and authentication system
 - **Validation**: Pydantic models for request/response validation
 - **Error Handling**: Comprehensive error handling and logging
 
@@ -212,17 +212,21 @@ curl -X POST "http://localhost:8000/api/v1/login" \
   -d '{"username": "user", "password": "password"}'
 ```
 
-### Todo Operations
+### User Operations
 
 ```bash
-# Create todo (requires auth token)
-curl -X POST "http://localhost:8000/api/v1/todos" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
+# Register a new user
+curl -X POST "http://localhost:8000/api/v1/register" \
   -H "Content-Type: application/json" \
-  -d '{"title": "My Todo", "priority": "high"}'
+  -d '{"username": "testuser", "email": "test@example.com", "password": "password123"}'
 
-# List todos
-curl -X GET "http://localhost:8000/api/v1/todos" \
+# Login to get access token
+curl -X POST "http://localhost:8000/api/v1/login" \
+  -H "Content-Type: application/json" \
+  -d '{"username": "testuser", "password": "password123"}'
+
+# Get current user info (requires auth token)
+curl -X GET "http://localhost:8000/api/v1/me" \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
@@ -377,32 +381,31 @@ chmod +x scripts/test-setup.sh
 This will test:
 - ✅ API health and documentation
 - ✅ User registration and authentication  
-- ✅ Todo CRUD operations
+- ✅ User management operations
 - ✅ Prometheus metrics
 - ✅ E2E test suite (optional)
 
-### Create a Todo Example
+### Quick API Test Example
 
 ```bash
-# 1. Register a user
+# 1. Start the application
+docker-compose up
+
+# 2. Test health endpoint
+curl -X GET "http://localhost:8000/api/v1/health"
+
+# 3. Register a new user
 curl -X POST "http://localhost:8000/api/v1/register" \
   -H "Content-Type: application/json" \
-  -d '{"username": "testuser", "email": "test@example.com", "password": "testpass123"}'
+  -d '{"username": "testuser", "email": "test@example.com", "password": "password123"}'
 
-# 2. Login to get token
+# 4. Login to get token
 TOKEN=$(curl -s -X POST "http://localhost:8000/api/v1/login" \
   -H "Content-Type: application/json" \
-  -d '{"username": "testuser", "password": "testpass123"}' | \
-  python -c "import sys, json; print(json.load(sys.stdin)['access_token'])")
+  -d '{"username": "testuser", "password": "password123"}' | jq -r '.access_token')
 
-# 3. Create a todo
-curl -X POST "http://localhost:8000/api/v1/todos" \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"title": "My First Todo", "description": "Testing the API", "priority": "high"}'
-
-# 4. List todos
-curl -X GET "http://localhost:8000/api/v1/todos" \
+# 5. Get current user info
+curl -X GET "http://localhost:8000/api/v1/me" \
   -H "Authorization: Bearer $TOKEN"
 ```
 

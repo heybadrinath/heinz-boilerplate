@@ -26,8 +26,10 @@ class Settings(BaseSettings):
     DATABASE_TEST_URL: str = "sqlite:///./test.db"
     DB_POOL_SIZE: int = 5
     DB_MAX_OVERFLOW: int = 10
-    
-    
+
+    # Feature flags
+    AUTH_ENABLED: bool = True
+
     # CORS
     ALLOWED_ORIGINS: Union[str, List[str]] = ["http://localhost:3000", "http://localhost:8080"]
     
@@ -43,9 +45,9 @@ class Settings(BaseSettings):
             return [origin.strip() for origin in v.split(",")]
         elif isinstance(v, list):
             return v
-        return ["http://localhost:3000", "http://localhost:8080"]
+        return ["http://localhost:3000", "http://localhost:8080", "http://127.0.0.1:3000"]
     
-    model_config = SettingsConfigDict(env_file=".env", case_sensitive=True)
+    model_config = SettingsConfigDict(env_file=".env", case_sensitive=True, extra="ignore")
 
 
 settings = Settings()

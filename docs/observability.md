@@ -45,7 +45,7 @@ The FastAPI backend exposes the following metrics:
   - Labels: `method`, `endpoint`
 
 #### Business Metrics
-- `todo_created_total`: Total todos created counter
+- `users_created_total`: Total users registered counter
 
 #### System Metrics
 - Process CPU usage
@@ -70,8 +70,8 @@ histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
 # Error rate
 rate(http_requests_total{status_code=~"5.."}[5m]) / rate(http_requests_total[5m])
 
-# Todo creation rate
-rate(todo_created_total[5m])
+# User registration rate
+rate(users_created_total[5m])
 ```
 
 ## Tracing
@@ -107,7 +107,7 @@ async def my_function():
 ### Trace Examples
 
 Common trace patterns you'll see:
-- `http.request` → `service.todo.create` → `db.query.create`
+- `http.request` → `service.auth.register` → `db.query.create`
 - `http.request` → `service.auth.login` → `db.query.get_by_username`
 
 ## Grafana Dashboards
@@ -117,7 +117,7 @@ Common trace patterns you'll see:
 The included dashboard shows:
 - HTTP request rate and latency
 - Error rates by status code
-- Todo creation metrics
+- User registration metrics
 - System resource usage
 
 ### Importing Additional Dashboards

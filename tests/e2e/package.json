@@ -1,7 +1,7 @@
 {
   "name": "fastapi-backend-e2e-tests",
   "version": "1.0.0",
-  "description": "End-to-end tests for FastAPI backend",
+  "description": "Basic end-to-end tests for FastAPI backend boilerplate",
   "scripts": {
     "test": "playwright test",
     "test:headed": "playwright test --headed",

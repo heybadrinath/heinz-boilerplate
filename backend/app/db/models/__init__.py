@@ -1,7 +1,6 @@
 """
 Database models module.
 """
-from .todo import Todo
-from .user import User
+from .user import User, RefreshToken
 
-__all__ = ["Todo", "User"]
+__all__ = ["User", "RefreshToken"]
